@@ -2,6 +2,7 @@ package ru.vincetti.test.cashpointssample.utils
 
 import android.Manifest
 import android.app.Dialog
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
@@ -12,6 +13,25 @@ import ru.vincetti.test.cashpointssample.R
 object PermissionUtils {
 
     const val LOCATION_PERMISSION_REQUEST_CODE = 1
+
+    /**
+     * Checks if the result contains a {@link PackageManager#PERMISSION_GRANTED} result for a
+     * permission from a runtime permissions request.
+     *
+     * @see androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
+     */
+    fun isPermissionGranted(
+        grantPermissions: Array<String>,
+        grantResults: IntArray,
+        permission: String
+    ): Boolean {
+        for (i in grantPermissions.indices) {
+            if (permission == grantPermissions[i]) {
+                return grantResults[i] == PackageManager.PERMISSION_GRANTED
+            }
+        }
+        return false
+    }
 
     /**
      * Requests the fine location permission. If a rationale with an additional explanation should
