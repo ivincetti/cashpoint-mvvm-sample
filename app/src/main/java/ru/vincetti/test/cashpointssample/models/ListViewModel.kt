@@ -13,7 +13,10 @@ class ListViewModel(pointsModel: PointsModel) : ViewModel() {
 
     fun onMarkerClicked(marker: Marker?) {
         marker?.let {
-            needToShowBottomSheet.value = true
+            val markerTag = it.tag as? Int
+            markerTag?.let { tag ->
+                needToShowBottomSheet.value = true
+            }
         }
     }
 }

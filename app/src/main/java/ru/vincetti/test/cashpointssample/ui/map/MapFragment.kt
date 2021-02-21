@@ -100,7 +100,8 @@ class MapFragment : Fragment(),
     }
 
     private fun addMarker(point: CashPoint) {
-        map.addMarker(MarkerOptions().position(point.latLong).title(point.name))
+        val marker = map.addMarker(MarkerOptions().position(point.latLong).title(point.name))
+        marker.tag = point.id
     }
 
     private fun enableMyLocation() {
