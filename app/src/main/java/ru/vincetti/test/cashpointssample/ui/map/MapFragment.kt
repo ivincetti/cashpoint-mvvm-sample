@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import ru.vincetti.test.cashpointssample.R
+import ru.vincetti.test.cashpointssample.utils.PermissionUtils
 
 class MapFragment : Fragment(),
     OnMapReadyCallback,
@@ -70,6 +71,12 @@ class MapFragment : Fragment(),
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             map.isMyLocationEnabled = true
+        } else {
+            PermissionUtils.requestPermission(
+                requireActivity(),
+                PermissionUtils.LOCATION_PERMISSION_REQUEST_CODE,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
         }
     }
 }
