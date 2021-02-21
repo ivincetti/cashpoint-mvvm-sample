@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -85,6 +86,10 @@ class MapFragment : Fragment(),
     private fun initView() {
         val bottomSheet = requireActivity().findViewById<ConstraintLayout>(R.id.details_sheet_root)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+
+        bottomSheet.setOnClickListener {
+            findNavController().navigate(R.id.action_mapFragment_to_pointFragment)
+        }
     }
 
     private fun initObservers() {
