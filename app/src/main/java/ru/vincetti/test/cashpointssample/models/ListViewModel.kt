@@ -5,17 +5,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.model.Marker
 import ru.vincetti.test.cashpointssample.utils.SingleLiveEvent
 
-class ListViewModel(pointsModel: PointsModel) : ViewModel() {
+class ListViewModel(private val pointsModel: PointsModel) : ViewModel() {
 
-    val needToShowBottomSheet = SingleLiveEvent<Boolean>()
+    val needToShowBottomSheet = SingleLiveEvent<CashPoint>()
 
     val list = pointsModel.getPoints()
 
     fun onMarkerClicked(marker: Marker?) {
         marker?.let {
-            val markerTag = it.tag as? Int
-            markerTag?.let { tag ->
-                needToShowBottomSheet.value = true
+            val markerId = it.tag as? Int
+            markerId?.let { id ->
+                pointsModel.findPointById(id)?.let { point ->
+                    needToShowBottomSheet.value = point
+                }
             }
         }
     }

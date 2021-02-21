@@ -13,4 +13,8 @@ class PointsModelImpl @Inject constructor() : PointsModel {
     )
 
     override fun getPoints(): List<CashPoint> = list
+
+    override fun findPointById(id: Int): CashPoint? {
+        return list.firstOrNull { it.id == id }
+    }
 }

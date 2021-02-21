@@ -88,7 +88,7 @@ class MapFragment : Fragment(),
 
     private fun initObservers() {
         viewModel.needToShowBottomSheet.observe(viewLifecycleOwner) {
-            if (it) showDetailSheet()
+            showDetailSheet(it)
         }
     }
 
@@ -121,7 +121,7 @@ class MapFragment : Fragment(),
         }
     }
 
-    private fun showDetailSheet() {
+    private fun showDetailSheet(point: CashPoint) {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 }
