@@ -1,9 +1,12 @@
 package ru.vincetti.test.cashpointssample.ui.map
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -43,6 +46,7 @@ class MapFragment : Fragment(),
             isMapToolbarEnabled = false
         }
         addMarker()
+        enableMyLocation()
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
@@ -56,5 +60,16 @@ class MapFragment : Fragment(),
         val sydney = LatLng(-34.0, 151.0)
         map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+
+    private fun enableMyLocation(){
+        if (
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            map.isMyLocationEnabled = true
+        }
     }
 }
