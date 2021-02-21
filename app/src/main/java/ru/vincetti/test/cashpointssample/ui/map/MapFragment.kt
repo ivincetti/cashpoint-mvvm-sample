@@ -88,13 +88,16 @@ class MapFragment : Fragment(),
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
 
         bottomSheet.setOnClickListener {
-            findNavController().navigate(R.id.action_mapFragment_to_pointFragment)
+            viewModel.onDetailsSheetClicked()
         }
     }
 
     private fun initObservers() {
         viewModel.needToShowBottomSheet.observe(viewLifecycleOwner) {
             showDetailSheet(it.name, it.id.toString())
+        }
+        viewModel.needToNavigateToDetails.observe(viewLifecycleOwner) {
+            if (it) navigateToPointFragment()
         }
     }
 
@@ -134,5 +137,9 @@ class MapFragment : Fragment(),
         bottomSheetNameView.text = name
         bottomSheetInfoView.text = info
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
+    private fun navigateToPointFragment() {
+        findNavController().navigate(R.id.action_mapFragment_to_pointFragment)
     }
 }

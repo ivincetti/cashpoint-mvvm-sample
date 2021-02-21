@@ -8,6 +8,7 @@ import ru.vincetti.test.cashpointssample.utils.SingleLiveEvent
 class ListViewModel(private val pointsModel: PointsModel) : ViewModel() {
 
     val needToShowBottomSheet = SingleLiveEvent<CashPoint>()
+    val needToNavigateToDetails = SingleLiveEvent<Boolean>()
 
     val list = pointsModel.getPoints()
 
@@ -20,6 +21,10 @@ class ListViewModel(private val pointsModel: PointsModel) : ViewModel() {
                 }
             }
         }
+    }
+
+    fun onDetailsSheetClicked() {
+        needToNavigateToDetails.value = true
     }
 }
 
