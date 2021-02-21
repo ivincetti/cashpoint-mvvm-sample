@@ -10,11 +10,14 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import ru.vincetti.test.cashpointssample.R
 
 class MapFragment : Fragment(),
-    OnMapReadyCallback {
+    OnMapReadyCallback,
+    GoogleMap.OnMarkerClickListener {
 
     private lateinit var map: GoogleMap
 
@@ -33,12 +36,23 @@ class MapFragment : Fragment(),
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.setOnMarkerClickListener(this)
 
         with(map.uiSettings) {
             isZoomControlsEnabled = true
             isMapToolbarEnabled = false
         }
+        addMarker()
+    }
 
+    override fun onMarkerClick(marker: Marker?): Boolean {
+        view?.let {
+            Snackbar.make(it, "onMarkerClick", Snackbar.LENGTH_SHORT).show()
+        }
+        return true
+    }
+
+    private fun addMarker() {
         val sydney = LatLng(-34.0, 151.0)
         map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
