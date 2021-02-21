@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BottomSheetStyle" />
+
+    <style name="BottomSheetStyle.Text">
+        <item name="android:textSize">@dimen/bottom_sheet_text_size</item>
+    </style>
+
+    <style name="BottomSheetStyle.Separator">
+        <item name="android:background">?attr/colorPrimaryVariant</item>
+    </style>
+
+</resources>

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,7 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import ru.vincetti.test.cashpointssample.App
 import ru.vincetti.test.cashpointssample.R
 import ru.vincetti.test.cashpointssample.models.CashPoint
@@ -32,6 +33,7 @@ class MapFragment : Fragment(),
     lateinit var viewModelFactory: ListViewModelFactory
 
     private lateinit var map: GoogleMap
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private val viewModel by activityViewModels<ListViewModel> { viewModelFactory }
 
@@ -54,6 +56,13 @@ class MapFragment : Fragment(),
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initView()
+        initObservers()
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setOnMarkerClickListener(this)
@@ -67,10 +76,20 @@ class MapFragment : Fragment(),
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
-        view?.let {
-            Snackbar.make(it, "onMarkerClick", Snackbar.LENGTH_SHORT).show()
-        }
+        viewModel.onMarkerClicked(marker)
+
         return true
+    }
+
+    private fun initView() {
+        val bottomSheet = requireActivity().findViewById<ConstraintLayout>(R.id.details_sheet_root)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+    }
+
+    private fun initObservers() {
+        viewModel.needToShowBottomSheet.observe(viewLifecycleOwner) {
+            if (it) showDetailSheet()
+        }
     }
 
     private fun addMarkers() {
@@ -99,5 +118,9 @@ class MapFragment : Fragment(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
         }
+    }
+
+    private fun showDetailSheet() {
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 }
