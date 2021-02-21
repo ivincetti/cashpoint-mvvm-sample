@@ -19,16 +19,11 @@ class ListViewModel(private val pointsModel: PointsModel) : ViewModel() {
     val points: LiveData<List<CashPoint>>
         get() = _points
 
-    private val list = pointsModel.getPoints()
-
-    fun onMapReady() {
-        _points.value = list
-    }
-
     fun checkArea(map: GoogleMap) {
         val radius = GeoMath.getMapVisibleRadius(map.projection.visibleRegion)
         val point = map.cameraPosition.target
         Log.d("OLOLO", "area changed to $point with radius = $radius")
+        _points.value = pointsModel.getPoints(point, radius)
     }
 
     fun onMarkerClicked(marker: Marker?) {

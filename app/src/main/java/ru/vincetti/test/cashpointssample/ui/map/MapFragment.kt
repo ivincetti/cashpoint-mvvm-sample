@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -25,6 +26,7 @@ import ru.vincetti.test.cashpointssample.models.CashPoint
 import ru.vincetti.test.cashpointssample.models.ListViewModel
 import ru.vincetti.test.cashpointssample.models.ListViewModelFactory
 import ru.vincetti.test.cashpointssample.models.MainViewModel
+import ru.vincetti.test.cashpointssample.utils.GeoConstants
 import ru.vincetti.test.cashpointssample.utils.PermissionUtils
 import javax.inject.Inject
 
@@ -71,14 +73,15 @@ class MapFragment : Fragment(),
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setOnMarkerClickListener(this)
-        map.setOnCameraIdleListener(this)
 
         with(map.uiSettings) {
             isZoomControlsEnabled = true
             isMapToolbarEnabled = false
         }
         enableMyLocation()
-        viewModel.onMapReady()
+
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(GeoConstants.MOSCOW))
+        map.setOnCameraIdleListener(this)
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {

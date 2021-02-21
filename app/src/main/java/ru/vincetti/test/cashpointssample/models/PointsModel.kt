@@ -1,8 +1,10 @@
 package ru.vincetti.test.cashpointssample.models
 
+import com.google.android.gms.maps.model.LatLng
+
 interface PointsModel {
 
-    fun getPoints(): List<CashPoint>
+    fun getPoints(point: LatLng, radius: Double): List<CashPoint>
 
     fun findPointById(id: Int): CashPoint?
 }
