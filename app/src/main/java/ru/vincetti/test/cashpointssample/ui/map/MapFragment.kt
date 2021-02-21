@@ -1,6 +1,7 @@
 package ru.vincetti.test.cashpointssample.ui.map
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,18 +16,30 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
+import ru.vincetti.test.cashpointssample.App
 import ru.vincetti.test.cashpointssample.R
 import ru.vincetti.test.cashpointssample.models.CashPoint
 import ru.vincetti.test.cashpointssample.models.ListViewModel
+import ru.vincetti.test.cashpointssample.models.ListViewModelFactory
 import ru.vincetti.test.cashpointssample.utils.PermissionUtils
+import javax.inject.Inject
 
 class MapFragment : Fragment(),
     OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener {
 
+    @Inject
+    lateinit var viewModelFactory: ListViewModelFactory
+
     private lateinit var map: GoogleMap
 
-    private val viewModel by activityViewModels<ListViewModel>()
+    private val viewModel by activityViewModels<ListViewModel> { viewModelFactory }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (context.applicationContext as App).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
