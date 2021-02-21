@@ -1,8 +1,9 @@
 package ru.vincetti.test.cashpointssample.models
 
 import com.google.android.gms.maps.model.LatLng
+import javax.inject.Inject
 
-class PointsModelImpl : PointsModel {
+class PointsModelImpl @Inject constructor(): PointsModel {
 
     private val list = listOf(
         CashPoint(LatLng(-34.0, 151.0), "Sydney"),
