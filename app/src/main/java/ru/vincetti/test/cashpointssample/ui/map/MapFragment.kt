@@ -8,15 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.maps.CameraUpdateFactory
+import androidx.fragment.app.activityViewModels
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import ru.vincetti.test.cashpointssample.R
+import ru.vincetti.test.cashpointssample.models.CashPoint
+import ru.vincetti.test.cashpointssample.models.ListViewModel
 import ru.vincetti.test.cashpointssample.utils.PermissionUtils
 
 class MapFragment : Fragment(),
@@ -24,6 +25,8 @@ class MapFragment : Fragment(),
     GoogleMap.OnMarkerClickListener {
 
     private lateinit var map: GoogleMap
+
+    private val viewModel by activityViewModels<ListViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +49,7 @@ class MapFragment : Fragment(),
             isZoomControlsEnabled = true
             isMapToolbarEnabled = false
         }
-        addMarker()
+        addMarkers()
         enableMyLocation()
     }
 
@@ -57,13 +60,18 @@ class MapFragment : Fragment(),
         return true
     }
 
-    private fun addMarker() {
-        val sydney = LatLng(-34.0, 151.0)
-        map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    private fun addMarkers() {
+        val list = viewModel.list
+        list.forEach { point ->
+            addMarker(point)
+        }
     }
 
-    private fun enableMyLocation(){
+    private fun addMarker(point: CashPoint) {
+        map.addMarker(MarkerOptions().position(point.latLong).title(point.name))
+    }
+
+    private fun enableMyLocation() {
         if (
             ContextCompat.checkSelfPermission(
                 requireContext(),
