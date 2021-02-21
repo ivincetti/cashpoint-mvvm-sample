@@ -60,6 +60,7 @@ class MapFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
 
         initView()
+        initObservers()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -75,13 +76,20 @@ class MapFragment : Fragment(),
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        viewModel.onMarkerClicked(marker)
+
         return true
     }
 
     private fun initView() {
         val bottomSheet = requireActivity().findViewById<ConstraintLayout>(R.id.details_sheet_root)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+    }
+
+    private fun initObservers() {
+        viewModel.needToShowBottomSheet.observe(viewLifecycleOwner) {
+            if (it) showDetailSheet()
+        }
     }
 
     private fun addMarkers() {
@@ -110,5 +118,9 @@ class MapFragment : Fragment(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
         }
+    }
+
+    private fun showDetailSheet() {
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 }
