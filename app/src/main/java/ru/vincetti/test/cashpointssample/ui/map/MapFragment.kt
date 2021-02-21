@@ -75,8 +75,8 @@ class MapFragment : Fragment(),
             isZoomControlsEnabled = true
             isMapToolbarEnabled = false
         }
-        addMarkers()
         enableMyLocation()
+        viewModel.onMapReady()
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
@@ -101,14 +101,16 @@ class MapFragment : Fragment(),
         viewModel.needToNavigateToDetails.observe(viewLifecycleOwner) {
             if (it) navigateToPointFragment()
         }
+        viewModel.points.observe(viewLifecycleOwner) {
+            addMarkers(it)
+        }
         mainViewModel.permissionGranted.observe(viewLifecycleOwner) {
             if (it) enableMyLocation()
         }
     }
 
-    private fun addMarkers() {
-        val list = viewModel.list
-        list.forEach { point ->
+    private fun addMarkers(points: List<CashPoint>) {
+        points.forEach { point ->
             addMarker(point)
         }
     }

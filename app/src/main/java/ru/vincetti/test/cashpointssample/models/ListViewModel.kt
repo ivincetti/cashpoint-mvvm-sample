@@ -1,5 +1,7 @@
 package ru.vincetti.test.cashpointssample.models
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.model.Marker
@@ -10,7 +12,15 @@ class ListViewModel(private val pointsModel: PointsModel) : ViewModel() {
     val needToShowBottomSheet = SingleLiveEvent<CashPoint>()
     val needToNavigateToDetails = SingleLiveEvent<Boolean>()
 
-    val list = pointsModel.getPoints()
+    private val _points = MutableLiveData<List<CashPoint>>()
+    val points: LiveData<List<CashPoint>>
+        get() = _points
+
+    private val list = pointsModel.getPoints()
+
+    fun onMapReady() {
+        _points.value = list
+    }
 
     fun onMarkerClicked(marker: Marker?) {
         marker?.let {
