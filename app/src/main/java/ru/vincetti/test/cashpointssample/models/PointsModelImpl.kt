@@ -6,13 +6,13 @@ import javax.inject.Inject
 class PointsModelImpl @Inject constructor() : PointsModel {
 
     private val list = listOf(
-        CashPoint(1, LatLng(-34.0, 151.0), "Sydney"),
-        CashPoint(2, LatLng(-40.0, 16.0), "f"),
-        CashPoint(3, LatLng(15.0, -20.0), "213"),
-        CashPoint(4, LatLng(40.0, -10.0), "ddd"),
+        CashPoint(1, LatLng(55.72717, 37.61089), "Point1"),
+        CashPoint(2, LatLng(55.77040, 37.57797), "Point2"),
+        CashPoint(3, LatLng(55.76156, 37.68842), "Point3"),
+        CashPoint(4, LatLng(55.75854, 37.64528), "Point4"),
     )
 
-    override fun getPoints(): List<CashPoint> = list
+    override fun getPoints(point: LatLng, radius: Double): List<CashPoint> = list
 
     override fun findPointById(id: Int): CashPoint? {
         return list.firstOrNull { it.id == id }
