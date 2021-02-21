@@ -18,9 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/bottom_sheet_horizontal_margin"
         android:layout_marginTop="@dimen/bottom_sheet_vertical_margin"
-        android:text="@string/detail_bottom_sheet_sample_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/detail_bottom_sheet_sample_name" />
 
     <View
         android:id="@+id/details_sheet_separator"
@@ -38,9 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/bottom_sheet_vertical_margin"
-        android:text="@string/detail_bottom_sheet_sample_info"
         android:textSize="@dimen/bottom_sheet_text_size"
         app:layout_constraintStart_toStartOf="@+id/details_sheet_name"
-        app:layout_constraintTop_toBottomOf="@id/details_sheet_separator" />
+        app:layout_constraintTop_toBottomOf="@id/details_sheet_separator"
+        tools:text="@string/detail_bottom_sheet_sample_info" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

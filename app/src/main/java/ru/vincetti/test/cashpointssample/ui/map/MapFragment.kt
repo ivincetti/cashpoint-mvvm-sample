@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -88,7 +89,7 @@ class MapFragment : Fragment(),
 
     private fun initObservers() {
         viewModel.needToShowBottomSheet.observe(viewLifecycleOwner) {
-            if (it) showDetailSheet()
+            showDetailSheet(it.name, it.id.toString())
         }
     }
 
@@ -100,7 +101,8 @@ class MapFragment : Fragment(),
     }
 
     private fun addMarker(point: CashPoint) {
-        map.addMarker(MarkerOptions().position(point.latLong).title(point.name))
+        val marker = map.addMarker(MarkerOptions().position(point.latLong).title(point.name))
+        marker.tag = point.id
     }
 
     private fun enableMyLocation() {
@@ -120,7 +122,12 @@ class MapFragment : Fragment(),
         }
     }
 
-    private fun showDetailSheet() {
+    private fun showDetailSheet(name: String, info: String) {
+        val bottomSheetNameView = requireActivity().findViewById<TextView>(R.id.details_sheet_name)
+        val bottomSheetInfoView = requireActivity().findViewById<TextView>(R.id.details_sheet_info)
+
+        bottomSheetNameView.text = name
+        bottomSheetInfoView.text = info
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 }
