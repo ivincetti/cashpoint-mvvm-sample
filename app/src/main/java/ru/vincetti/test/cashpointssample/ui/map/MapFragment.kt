@@ -24,6 +24,7 @@ import ru.vincetti.test.cashpointssample.R
 import ru.vincetti.test.cashpointssample.models.CashPoint
 import ru.vincetti.test.cashpointssample.models.ListViewModel
 import ru.vincetti.test.cashpointssample.models.ListViewModelFactory
+import ru.vincetti.test.cashpointssample.models.MainViewModel
 import ru.vincetti.test.cashpointssample.utils.PermissionUtils
 import javax.inject.Inject
 
@@ -38,6 +39,7 @@ class MapFragment : Fragment(),
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private val viewModel by activityViewModels<ListViewModel> { viewModelFactory }
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -98,6 +100,9 @@ class MapFragment : Fragment(),
         }
         viewModel.needToNavigateToDetails.observe(viewLifecycleOwner) {
             if (it) navigateToPointFragment()
+        }
+        mainViewModel.permissionGranted.observe(viewLifecycleOwner) {
+            if (it) enableMyLocation()
         }
     }
 
