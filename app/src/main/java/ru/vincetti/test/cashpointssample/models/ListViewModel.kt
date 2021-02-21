@@ -1,10 +1,13 @@
 package ru.vincetti.test.cashpointssample.models
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
+import ru.vincetti.test.cashpointssample.utils.GeoMath
 import ru.vincetti.test.cashpointssample.utils.SingleLiveEvent
 
 class ListViewModel(private val pointsModel: PointsModel) : ViewModel() {
@@ -20,6 +23,12 @@ class ListViewModel(private val pointsModel: PointsModel) : ViewModel() {
 
     fun onMapReady() {
         _points.value = list
+    }
+
+    fun checkArea(map: GoogleMap) {
+        val radius = GeoMath.getMapVisibleRadius(map.projection.visibleRegion)
+        val point = map.cameraPosition.target
+        Log.d("OLOLO", "area changed to $point with radius = $radius")
     }
 
     fun onMarkerClicked(marker: Marker?) {
