@@ -30,6 +30,7 @@ import javax.inject.Inject
 
 class MapFragment : Fragment(),
     OnMapReadyCallback,
+    GoogleMap.OnCameraIdleListener,
     GoogleMap.OnMarkerClickListener {
 
     @Inject
@@ -70,6 +71,7 @@ class MapFragment : Fragment(),
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setOnMarkerClickListener(this)
+        map.setOnCameraIdleListener(this)
 
         with(map.uiSettings) {
             isZoomControlsEnabled = true
@@ -83,6 +85,10 @@ class MapFragment : Fragment(),
         viewModel.onMarkerClicked(marker)
 
         return true
+    }
+
+    override fun onCameraIdle() {
+        viewModel.checkArea(map)
     }
 
     private fun initView() {
