@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/details_sheet_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/backgroundColor"
+    android:paddingBottom="@dimen/bottom_sheet_bottom_padding"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <TextView
+        android:id="@+id/details_sheet_name"
+        style="@style/BottomSheetStyle.Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/bottom_sheet_horizontal_margin"
+        android:layout_marginTop="@dimen/bottom_sheet_vertical_margin"
+        android:text="@string/detail_bottom_sheet_sample_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/details_sheet_separator"
+        style="@style/BottomSheetStyle.Separator"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/bottom_sheet_line_height"
+        android:layout_marginTop="@dimen/bottom_sheet_vertical_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/details_sheet_name"
+        app:layout_constraintTop_toBottomOf="@+id/details_sheet_name" />
+
+    <TextView
+        android:id="@+id/details_sheet_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bottom_sheet_vertical_margin"
+        android:text="@string/detail_bottom_sheet_sample_info"
+        android:textSize="@dimen/bottom_sheet_text_size"
+        app:layout_constraintStart_toStartOf="@+id/details_sheet_name"
+        app:layout_constraintTop_toBottomOf="@id/details_sheet_separator" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
