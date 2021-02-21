@@ -6,4 +6,6 @@
 
     <string name="detail_bottom_sheet_sample_name">Sample name</string>
     <string name="detail_bottom_sheet_sample_info">Sample info</string>
+
+    <string name="point_fragment_sample_info">Sample Point Data</string>
 </resources>
