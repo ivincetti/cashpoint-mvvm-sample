@@ -17,5 +17,9 @@
         android:id="@+id/pointFragment"
         android:name="ru.vincetti.test.cashpointssample.ui.point.PointFragment"
         android:label="fragment_point"
-        tools:layout="@layout/fragment_point" />
+        tools:layout="@layout/fragment_point" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
