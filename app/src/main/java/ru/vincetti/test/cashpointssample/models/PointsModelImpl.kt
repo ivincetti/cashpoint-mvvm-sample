@@ -5,15 +5,15 @@ import javax.inject.Inject
 
 class PointsModelImpl @Inject constructor() : MutablePointsModel {
 
-    private var list = listOf<CashPoint>()
+    private var pointsList = listOf<CashPoint>()
 
-    override fun getPoints(point: LatLng, radius: Double): List<CashPoint> = list
-
-    override fun getPointById(id: String): CashPoint? {
-        return list.firstOrNull { it.id == id }
+    override fun setPoints(list: List<CashPoint>) {
+        this.pointsList = list
     }
 
-    override fun setPoint(list: List<CashPoint>) {
-        this.list = list
+    override fun getPoints(point: LatLng, radius: Double): List<CashPoint> = pointsList
+
+    override fun getPointById(id: String): CashPoint? {
+        return pointsList.firstOrNull { it.id == id }
     }
 }

@@ -25,7 +25,7 @@ class ListViewModel(
         val radius = GeoMath.getMapVisibleRadius(map.projection.visibleRegion)
         val point = map.cameraPosition.target
         viewModelScope.launch {
-            when (val result = storage.getDepositPoints(point.latitude, point.longitude, radius)) {
+            when (val result = storage.getPoints(point.latitude, point.longitude, radius)) {
                 is PointsResult.ERROR -> {
                 }
                 is PointsResult.SUCCESS -> {
@@ -40,7 +40,7 @@ class ListViewModel(
         marker?.let {
             val markerId = it.tag as? String
             markerId?.let { id ->
-                storage.findPointById(id)?.let { point ->
+                storage.getPointById(id)?.let { point ->
                     needToShowBottomSheet.value = point
                 }
             }

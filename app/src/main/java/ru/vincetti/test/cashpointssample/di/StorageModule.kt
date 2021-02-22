@@ -4,9 +4,7 @@ import dagger.Binds
 import dagger.Module
 import ru.vincetti.test.cashpointssample.core.storage.Storage
 import ru.vincetti.test.cashpointssample.core.storage.StorageImpl
-import ru.vincetti.test.cashpointssample.models.MutablePointsModel
-import ru.vincetti.test.cashpointssample.models.PointsModel
-import ru.vincetti.test.cashpointssample.models.PointsModelImpl
+import ru.vincetti.test.cashpointssample.models.*
 
 @Module
 abstract class StorageModule {
@@ -16,6 +14,12 @@ abstract class StorageModule {
 
     @Binds
     abstract fun bindMutablePointModel(model: PointsModelImpl): MutablePointsModel
+
+    @Binds
+    abstract fun bindPartnerModel(model: PartnersModelImpl): PartnersModel
+
+    @Binds
+    abstract fun bindMutablePartnerModel(model: PartnersModelImpl): MutablePartnersModel
 
     @Binds
     abstract fun bindStorage(storage: StorageImpl): Storage
