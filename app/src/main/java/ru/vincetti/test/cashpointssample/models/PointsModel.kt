@@ -6,5 +6,5 @@ interface PointsModel {
 
     fun getPoints(point: LatLng, radius: Double): List<CashPoint>
 
-    fun findPointById(id: Int): CashPoint?
+    fun getPointById(id: String): CashPoint?
 }

@@ -120,7 +120,7 @@ class MapFragment : Fragment(),
             if (it) blockUI() else unBlockUI()
         }
         viewModel.needToShowBottomSheet.observe(viewLifecycleOwner) {
-            showDetailSheet(it.name, it.id.toString())
+            showDetailSheet(it.name, it.address)
         }
         viewModel.needToNavigateToDetails.observe(viewLifecycleOwner) {
             if (it) navigateToPointFragment()
