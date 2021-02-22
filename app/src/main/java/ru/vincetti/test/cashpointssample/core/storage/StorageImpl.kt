@@ -5,6 +5,7 @@ import ru.vincetti.test.cashpointssample.core.network.DOWNLOAD_OK
 import ru.vincetti.test.cashpointssample.core.network.TinkoffService
 import ru.vincetti.test.cashpointssample.core.network.models.partners.Partner
 import ru.vincetti.test.cashpointssample.models.*
+import ru.vincetti.test.cashpointssample.utils.imageBaseUrl
 import javax.inject.Inject
 
 class StorageImpl @Inject constructor(
@@ -20,21 +21,42 @@ class StorageImpl @Inject constructor(
     ): PointsResult {
         val pointsData = getDepositPoints(latitude, longitude, radius)
         val partnerData = getPartnersList()
-        return if (pointsData is PointsResult.ERROR || partnerData is PartnersResult.ERROR) {
+        return if (pointsData is DepositPointsResult.ERROR || partnerData is PartnersResult.ERROR) {
             PointsResult.ERROR
         } else {
-            (pointsData as PointsResult.SUCCESS).also {
-                pointsModel.setPoints(it.list)
-                partnerModel.setPartners(
-                    (partnerData as PartnersResult.SUCCESS).list
+            (pointsData as DepositPointsResult.SUCCESS).list.let {
+                pointsModel.setPoints(it)
+                partnerModel.setPartners((partnerData as PartnersResult.SUCCESS).list)
+                PointsResult.SUCCESS(
+                    it.map { depositPoint ->
+                        Point(
+                            depositPoint.externalId,
+                            LatLng(
+                                depositPoint.location.latitude,
+                                depositPoint.location.longitude
+                            )
+                        )
+                    }
                 )
             }
-
         }
     }
 
     override fun getPointById(id: String): CashPoint? {
-        return pointsModel.getPointById(id)
+        return pointsModel.getPointById(id)?.let { point ->
+            partnerModel.getPartnerById(point.partnerName)?.let { partner ->
+                CashPoint(
+                    point.externalId,
+                    LatLng(
+                        point.location.latitude,
+                        point.location.longitude,
+                    ),
+                    partner.name,
+                    "$imageBaseUrl${partner.picture}",
+                    point.fullAddress
+                )
+            }
+        }
     }
 
     override fun getPartnerById(id: String): Partner? {
@@ -45,20 +67,12 @@ class StorageImpl @Inject constructor(
         latitude: Double,
         longitude: Double,
         radius: Double
-    ): PointsResult {
+    ): DepositPointsResult {
         val data = networkService.getDepositPoints(latitude, longitude, radius.toLong())
         return if (data.resultCode != DOWNLOAD_OK) {
-            PointsResult.ERROR
+            DepositPointsResult.ERROR
         } else {
-            val list = data.depositPointList.map { point ->
-                CashPoint(
-                    point.externalId,
-                    LatLng(point.location.latitude, point.location.longitude),
-                    point.partnerName,
-                    point.fullAddress
-                )
-            }
-            PointsResult.SUCCESS(list)
+            DepositPointsResult.SUCCESS(data.depositPointList)
         }
     }
 

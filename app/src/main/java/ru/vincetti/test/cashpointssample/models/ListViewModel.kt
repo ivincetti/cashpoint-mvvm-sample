@@ -18,7 +18,7 @@ class ListViewModel(
     val needToNavigateToDetails = SingleLiveEvent<Boolean>()
     val needToBlockUser = SingleLiveEvent<Boolean>()
 
-    val points = SingleLiveEvent<List<CashPoint>>()
+    val points = SingleLiveEvent<List<Point>>()
 
     fun checkArea(map: GoogleMap) {
         needToBlockUser.value = true

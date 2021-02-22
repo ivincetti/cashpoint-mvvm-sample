@@ -30,9 +30,9 @@ data class Partner(
     @SerializedName("moneyMin")
     val moneyMin: Int?,
     @SerializedName("name")
-    val name: String?,
+    val name: String,
     @SerializedName("picture")
-    val picture: String?,
+    val picture: String,
     @SerializedName("pointType")
     val pointType: String?,
     @SerializedName("url")
