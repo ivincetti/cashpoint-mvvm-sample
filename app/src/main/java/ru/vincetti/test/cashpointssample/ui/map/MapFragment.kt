@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -27,6 +28,7 @@ import ru.vincetti.test.cashpointssample.models.ListViewModel
 import ru.vincetti.test.cashpointssample.models.ListViewModelFactory
 import ru.vincetti.test.cashpointssample.models.MainViewModel
 import ru.vincetti.test.cashpointssample.utils.GeoConstants
+import ru.vincetti.test.cashpointssample.utils.LoadingDialog
 import ru.vincetti.test.cashpointssample.utils.PermissionUtils
 import javax.inject.Inject
 
@@ -114,6 +116,9 @@ class MapFragment : Fragment(),
     }
 
     private fun initObservers() {
+        viewModel.needToBlockUser.observe(viewLifecycleOwner) {
+            if (it) blockUI() else unBlockUI()
+        }
         viewModel.needToShowBottomSheet.observe(viewLifecycleOwner) {
             showDetailSheet(it.name, it.id.toString())
         }
@@ -160,6 +165,20 @@ class MapFragment : Fragment(),
         binding.detailsSheet.detailsSheetName.text = name
         binding.detailsSheet.detailsSheetInfo.text = info
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
+    private fun blockUI() {
+        requireActivity().supportFragmentManager.let {
+            LoadingDialog.newInstance().show(it, LoadingDialog.FRAGMENT_TAG)
+            it.executePendingTransactions()
+        }
+    }
+
+    private fun unBlockUI() {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val fragment = fragmentManager.findFragmentByTag(LoadingDialog.FRAGMENT_TAG)
+        val dialog = fragment as? DialogFragment
+        dialog?.dismiss()
     }
 
     private fun navigateToPointFragment() {
