@@ -1,9 +1,8 @@
-package ru.vincetti.test.cashpointssample.core.network
-
+package ru.vincetti.test.cashpointssample.core.network.models.points
 
 import com.google.gson.annotations.SerializedName
 
-data class Payload(
+data class DepositPoint(
     @SerializedName("addressInfo")
     val addressInfo: String,
     @SerializedName("bankInfo")

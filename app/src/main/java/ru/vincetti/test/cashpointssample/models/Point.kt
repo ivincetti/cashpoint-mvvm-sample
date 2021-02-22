@@ -2,10 +2,7 @@ package ru.vincetti.test.cashpointssample.models
 
 import com.google.android.gms.maps.model.LatLng
 
-data class CashPoint(
+data class Point(
     val id: String,
-    val latLong: LatLng,
-    val name: String,
-    val image: String,
-    val address: String,
+    val latLong: LatLng
 )

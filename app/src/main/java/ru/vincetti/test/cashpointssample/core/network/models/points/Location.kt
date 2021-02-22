@@ -1,5 +1,4 @@
-package ru.vincetti.test.cashpointssample.core.network
-
+package ru.vincetti.test.cashpointssample.core.network.models.points
 
 import com.google.gson.annotations.SerializedName
 
