@@ -1,15 +1,18 @@
 package ru.vincetti.test.cashpointssample.models
 
-import android.os.CountDownTimer
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
+import kotlinx.coroutines.launch
+import ru.vincetti.test.cashpointssample.core.storage.Storage
 import ru.vincetti.test.cashpointssample.utils.GeoMath
 import ru.vincetti.test.cashpointssample.utils.SingleLiveEvent
 
-class ListViewModel(private val pointsModel: PointsModel) : ViewModel() {
+class ListViewModel(
+    private val storage: Storage
+) : ViewModel() {
 
     val needToShowBottomSheet = SingleLiveEvent<CashPoint>()
     val needToNavigateToDetails = SingleLiveEvent<Boolean>()
@@ -21,22 +24,23 @@ class ListViewModel(private val pointsModel: PointsModel) : ViewModel() {
         needToBlockUser.value = true
         val radius = GeoMath.getMapVisibleRadius(map.projection.visibleRegion)
         val point = map.cameraPosition.target
-        Log.d("OLOLO", "area changed to $point with radius = $radius")
-        points.value = pointsModel.getPoints(point, radius)
-        object : CountDownTimer(2000L,1000L){
-            override fun onTick(p0: Long) = Unit
-
-            override fun onFinish() {
-                needToBlockUser.value = false
+        viewModelScope.launch {
+            when (val result = storage.getDepositPoints(point.latitude, point.longitude, radius)) {
+                is PointsResult.ERROR -> {
+                }
+                is PointsResult.SUCCESS -> {
+                    points.value = result.list
+                }
             }
-        }.start()
+            needToBlockUser.value = false
+        }
     }
 
     fun onMarkerClicked(marker: Marker?) {
         marker?.let {
-            val markerId = it.tag as? Int
+            val markerId = it.tag as? String
             markerId?.let { id ->
-                pointsModel.findPointById(id)?.let { point ->
+                storage.findPointById(id)?.let { point ->
                     needToShowBottomSheet.value = point
                 }
             }
@@ -49,11 +53,11 @@ class ListViewModel(private val pointsModel: PointsModel) : ViewModel() {
 }
 
 class ListViewModelFactory(
-    private val pointsModel: PointsModel
+    private val storage: Storage
 ) : ViewModelProvider.Factory {
 
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return ListViewModel(pointsModel) as T
+        return ListViewModel(storage) as T
     }
 }
