@@ -4,22 +4,22 @@ import dagger.Binds
 import dagger.Module
 import ru.vincetti.test.cashpointssample.core.storage.Storage
 import ru.vincetti.test.cashpointssample.core.storage.StorageImpl
-import ru.vincetti.test.cashpointssample.models.*
+import ru.vincetti.test.cashpointssample.core.storage.repo.*
 
 @Module
 abstract class StorageModule {
 
     @Binds
-    abstract fun bindPointModel(model: PointsModelImpl): PointsModel
+    abstract fun bindPointRepo(repo: PointsRepoImpl): PointsRepo
 
     @Binds
-    abstract fun bindMutablePointModel(model: PointsModelImpl): MutablePointsModel
+    abstract fun bindMutablePointRepo(repo: PointsRepoImpl): MutablePointsRepo
 
     @Binds
-    abstract fun bindPartnerModel(model: PartnersModelImpl): PartnersModel
+    abstract fun bindPartnerRepo(repo: PartnersRepoImpl): PartnersRepo
 
     @Binds
-    abstract fun bindMutablePartnerModel(model: PartnersModelImpl): MutablePartnersModel
+    abstract fun bindMutablePartnerRepo(repo: PartnersRepoImpl): MutablePartnersRepo
 
     @Binds
     abstract fun bindStorage(storage: StorageImpl): Storage

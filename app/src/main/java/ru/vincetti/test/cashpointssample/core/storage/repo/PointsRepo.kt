@@ -1,9 +1,9 @@
-package ru.vincetti.test.cashpointssample.models
+package ru.vincetti.test.cashpointssample.core.storage.repo
 
 import com.google.android.gms.maps.model.LatLng
 import ru.vincetti.test.cashpointssample.core.network.models.points.DepositPoint
 
-interface PointsModel {
+interface PointsRepo {
 
     fun getPoints(point: LatLng, radius: Double): List<DepositPoint>
 

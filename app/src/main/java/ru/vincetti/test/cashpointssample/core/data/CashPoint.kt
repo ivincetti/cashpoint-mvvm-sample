@@ -1,4 +1,4 @@
-package ru.vincetti.test.cashpointssample.models
+package ru.vincetti.test.cashpointssample.core.data
 
 import com.google.android.gms.maps.model.LatLng
 

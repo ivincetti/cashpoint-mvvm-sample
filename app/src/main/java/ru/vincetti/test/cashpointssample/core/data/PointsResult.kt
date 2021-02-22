@@ -1,4 +1,4 @@
-package ru.vincetti.test.cashpointssample.models
+package ru.vincetti.test.cashpointssample.core.data
 
 import ru.vincetti.test.cashpointssample.core.network.models.partners.Partner
 import ru.vincetti.test.cashpointssample.core.network.models.points.DepositPoint

@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import ru.vincetti.test.cashpointssample.App
 import ru.vincetti.test.cashpointssample.R
-import ru.vincetti.test.cashpointssample.models.ListViewModel
-import ru.vincetti.test.cashpointssample.models.ListViewModelFactory
+import ru.vincetti.test.cashpointssample.mvvm.ListViewModel
+import ru.vincetti.test.cashpointssample.mvvm.ListViewModelFactory
 import javax.inject.Inject
 
 class PointFragment : Fragment() {

@@ -25,10 +25,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import ru.vincetti.test.cashpointssample.App
 import ru.vincetti.test.cashpointssample.R
 import ru.vincetti.test.cashpointssample.databinding.FragmentMapBinding
-import ru.vincetti.test.cashpointssample.models.ListViewModel
-import ru.vincetti.test.cashpointssample.models.ListViewModelFactory
-import ru.vincetti.test.cashpointssample.models.MainViewModel
-import ru.vincetti.test.cashpointssample.models.Point
+import ru.vincetti.test.cashpointssample.mvvm.ListViewModel
+import ru.vincetti.test.cashpointssample.mvvm.ListViewModelFactory
+import ru.vincetti.test.cashpointssample.mvvm.MainViewModel
+import ru.vincetti.test.cashpointssample.core.data.Point
 import ru.vincetti.test.cashpointssample.utils.GeoConstants
 import ru.vincetti.test.cashpointssample.utils.LoadingDialog
 import ru.vincetti.test.cashpointssample.utils.PermissionUtils
