@@ -13,20 +13,22 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import ru.vincetti.test.cashpointssample.App
 import ru.vincetti.test.cashpointssample.R
 import ru.vincetti.test.cashpointssample.databinding.FragmentMapBinding
-import ru.vincetti.test.cashpointssample.models.CashPoint
-import ru.vincetti.test.cashpointssample.models.ListViewModel
-import ru.vincetti.test.cashpointssample.models.ListViewModelFactory
-import ru.vincetti.test.cashpointssample.models.MainViewModel
+import ru.vincetti.test.cashpointssample.mvvm.ListViewModel
+import ru.vincetti.test.cashpointssample.mvvm.ListViewModelFactory
+import ru.vincetti.test.cashpointssample.mvvm.MainViewModel
+import ru.vincetti.test.cashpointssample.core.data.Point
 import ru.vincetti.test.cashpointssample.utils.GeoConstants
 import ru.vincetti.test.cashpointssample.utils.LoadingDialog
 import ru.vincetti.test.cashpointssample.utils.PermissionUtils
@@ -120,7 +122,7 @@ class MapFragment : Fragment(),
             if (it) blockUI() else unBlockUI()
         }
         viewModel.needToShowBottomSheet.observe(viewLifecycleOwner) {
-            showDetailSheet(it.name, it.id.toString())
+            showDetailSheet(it.name, it.address, it.image)
         }
         viewModel.needToNavigateToDetails.observe(viewLifecycleOwner) {
             if (it) navigateToPointFragment()
@@ -133,15 +135,15 @@ class MapFragment : Fragment(),
         }
     }
 
-    private fun addMarkers(points: List<CashPoint>) {
+    private fun addMarkers(points: List<Point>) {
         points.forEach { point ->
-            addMarker(point)
+            addMarker(point.id, point.latLong)
         }
     }
 
-    private fun addMarker(point: CashPoint) {
-        val marker = map.addMarker(MarkerOptions().position(point.latLong).title(point.name))
-        marker.tag = point.id
+    private fun addMarker(id: String, latLng: LatLng) {
+        val marker = map.addMarker(MarkerOptions().position(latLng))
+        marker.tag = id
     }
 
     private fun enableMyLocation() {
@@ -161,9 +163,13 @@ class MapFragment : Fragment(),
         }
     }
 
-    private fun showDetailSheet(name: String, info: String) {
+    private fun showDetailSheet(name: String, info: String, pictureUrl: String) {
         binding.detailsSheet.detailsSheetName.text = name
         binding.detailsSheet.detailsSheetInfo.text = info
+        Glide.with(this)
+            .load(pictureUrl)
+            .centerCrop()
+            .into(binding.detailsSheet.detailsSheetPicture)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
