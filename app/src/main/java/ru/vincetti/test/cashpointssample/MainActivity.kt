@@ -3,7 +3,7 @@ package ru.vincetti.test.cashpointssample
 import android.Manifest
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import ru.vincetti.test.cashpointssample.models.MainViewModel
+import ru.vincetti.test.cashpointssample.mvvm.MainViewModel
 import ru.vincetti.test.cashpointssample.utils.PermissionUtils
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {

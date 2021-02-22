@@ -1,4 +1,4 @@
-package ru.vincetti.test.cashpointssample.models
+package ru.vincetti.test.cashpointssample.mvvm
 
 import androidx.lifecycle.ViewModel
 import ru.vincetti.test.cashpointssample.utils.SingleLiveEvent

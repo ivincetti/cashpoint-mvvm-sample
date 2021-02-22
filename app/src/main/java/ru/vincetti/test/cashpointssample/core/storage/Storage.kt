@@ -1,8 +1,8 @@
 package ru.vincetti.test.cashpointssample.core.storage
 
 import ru.vincetti.test.cashpointssample.core.network.models.partners.Partner
-import ru.vincetti.test.cashpointssample.models.CashPoint
-import ru.vincetti.test.cashpointssample.models.PointsResult
+import ru.vincetti.test.cashpointssample.core.data.CashPoint
+import ru.vincetti.test.cashpointssample.core.data.PointsResult
 
 interface Storage {
 

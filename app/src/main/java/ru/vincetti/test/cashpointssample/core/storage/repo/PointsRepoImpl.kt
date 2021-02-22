@@ -1,10 +1,10 @@
-package ru.vincetti.test.cashpointssample.models
+package ru.vincetti.test.cashpointssample.core.storage.repo
 
 import com.google.android.gms.maps.model.LatLng
 import ru.vincetti.test.cashpointssample.core.network.models.points.DepositPoint
 import javax.inject.Inject
 
-class PointsModelImpl @Inject constructor() : MutablePointsModel {
+class PointsRepoImpl @Inject constructor() : MutablePointsRepo {
 
     private var pointsList = listOf<DepositPoint>()
 

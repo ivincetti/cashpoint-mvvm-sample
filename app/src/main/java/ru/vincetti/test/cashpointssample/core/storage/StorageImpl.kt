@@ -1,16 +1,18 @@
 package ru.vincetti.test.cashpointssample.core.storage
 
 import com.google.android.gms.maps.model.LatLng
+import ru.vincetti.test.cashpointssample.core.data.*
 import ru.vincetti.test.cashpointssample.core.network.DOWNLOAD_OK
 import ru.vincetti.test.cashpointssample.core.network.TinkoffService
 import ru.vincetti.test.cashpointssample.core.network.models.partners.Partner
-import ru.vincetti.test.cashpointssample.models.*
+import ru.vincetti.test.cashpointssample.core.storage.repo.MutablePartnersRepo
+import ru.vincetti.test.cashpointssample.core.storage.repo.MutablePointsRepo
 import ru.vincetti.test.cashpointssample.utils.imageBaseUrl
 import javax.inject.Inject
 
 class StorageImpl @Inject constructor(
-    private val pointsModel: MutablePointsModel,
-    private val partnerModel: MutablePartnersModel,
+    private val pointsRepo: MutablePointsRepo,
+    private val partnerRepo: MutablePartnersRepo,
     private val networkService: TinkoffService
 ) : Storage {
 
@@ -25,8 +27,8 @@ class StorageImpl @Inject constructor(
             PointsResult.ERROR
         } else {
             (pointsData as DepositPointsResult.SUCCESS).list.let {
-                pointsModel.setPoints(it)
-                partnerModel.setPartners((partnerData as PartnersResult.SUCCESS).list)
+                pointsRepo.setPoints(it)
+                partnerRepo.setPartners((partnerData as PartnersResult.SUCCESS).list)
                 PointsResult.SUCCESS(
                     it.map { depositPoint ->
                         Point(
@@ -43,8 +45,8 @@ class StorageImpl @Inject constructor(
     }
 
     override fun getPointById(id: String): CashPoint? {
-        return pointsModel.getPointById(id)?.let { point ->
-            partnerModel.getPartnerById(point.partnerName)?.let { partner ->
+        return pointsRepo.getPointById(id)?.let { point ->
+            partnerRepo.getPartnerById(point.partnerName)?.let { partner ->
                 CashPoint(
                     point.externalId,
                     LatLng(
@@ -60,7 +62,7 @@ class StorageImpl @Inject constructor(
     }
 
     override fun getPartnerById(id: String): Partner? {
-        return partnerModel.getPartnerById(id)
+        return partnerRepo.getPartnerById(id)
     }
 
     private suspend fun getDepositPoints(

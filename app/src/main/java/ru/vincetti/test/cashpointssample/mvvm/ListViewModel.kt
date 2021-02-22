@@ -1,4 +1,4 @@
-package ru.vincetti.test.cashpointssample.models
+package ru.vincetti.test.cashpointssample.mvvm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -7,6 +7,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import kotlinx.coroutines.launch
 import ru.vincetti.test.cashpointssample.core.storage.Storage
+import ru.vincetti.test.cashpointssample.core.data.CashPoint
+import ru.vincetti.test.cashpointssample.core.data.Point
+import ru.vincetti.test.cashpointssample.core.data.PointsResult
 import ru.vincetti.test.cashpointssample.utils.GeoMath
 import ru.vincetti.test.cashpointssample.utils.SingleLiveEvent
 

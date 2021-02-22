@@ -3,7 +3,7 @@ package ru.vincetti.test.cashpointssample.di
 import dagger.Module
 import dagger.Provides
 import ru.vincetti.test.cashpointssample.core.storage.Storage
-import ru.vincetti.test.cashpointssample.models.ListViewModelFactory
+import ru.vincetti.test.cashpointssample.mvvm.ListViewModelFactory
 
 @Module
 class ListModule {

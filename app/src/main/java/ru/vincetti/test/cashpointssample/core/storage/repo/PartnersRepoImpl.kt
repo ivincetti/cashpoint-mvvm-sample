@@ -1,9 +1,9 @@
-package ru.vincetti.test.cashpointssample.models
+package ru.vincetti.test.cashpointssample.core.storage.repo
 
 import ru.vincetti.test.cashpointssample.core.network.models.partners.Partner
 import javax.inject.Inject
 
-class PartnersModelImpl @Inject constructor() : MutablePartnersModel {
+class PartnersRepoImpl @Inject constructor() : MutablePartnersRepo {
 
     private var partnerList = listOf<Partner>()
 
