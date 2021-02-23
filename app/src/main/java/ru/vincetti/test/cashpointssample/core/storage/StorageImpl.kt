@@ -16,7 +16,7 @@ class StorageImpl @Inject constructor(
     private val networkService: TinkoffService
 ) : Storage {
 
-    override suspend fun getPoints(
+    override suspend fun getPointsForMap(
         latitude: Double,
         longitude: Double,
         radius: Double
@@ -44,7 +44,7 @@ class StorageImpl @Inject constructor(
         }
     }
 
-    override fun getPointById(id: String): CashPoint? {
+    override fun getPointForMapById(id: String): CashPoint? {
         return pointsRepo.getPointById(id)?.let { point ->
             partnerRepo.getPartnerById(point.partnerName)?.let { partner ->
                 CashPoint(
@@ -56,6 +56,23 @@ class StorageImpl @Inject constructor(
                     partner.name,
                     "$imageBaseUrl${partner.picture}",
                     point.fullAddress
+                )
+            }
+        }
+    }
+
+    override fun getPointDetailById(id: String): CashPointDetails? {
+        return pointsRepo.getPointById(id)?.let { point ->
+            partnerRepo.getPartnerById(point.partnerName)?.let { partner ->
+                CashPointDetails(
+                    point.externalId,
+                    partner.name,
+                    "$imageBaseUrl${partner.picture}",
+                    point.fullAddress,
+                    point.workHours,
+                    point.phones,
+                    partner.dailyLimits,
+                    partner.description
                 )
             }
         }

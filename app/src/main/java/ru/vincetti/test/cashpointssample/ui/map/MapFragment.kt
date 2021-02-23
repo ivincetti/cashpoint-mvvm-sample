@@ -29,6 +29,7 @@ import ru.vincetti.test.cashpointssample.mvvm.ListViewModel
 import ru.vincetti.test.cashpointssample.mvvm.ListViewModelFactory
 import ru.vincetti.test.cashpointssample.mvvm.MainViewModel
 import ru.vincetti.test.cashpointssample.core.data.Point
+import ru.vincetti.test.cashpointssample.ui.point.PointFragment
 import ru.vincetti.test.cashpointssample.utils.GeoConstants
 import ru.vincetti.test.cashpointssample.utils.LoadingDialog
 import ru.vincetti.test.cashpointssample.utils.PermissionUtils
@@ -125,7 +126,7 @@ class MapFragment : Fragment(),
             showDetailSheet(it.name, it.address, it.image)
         }
         viewModel.needToNavigateToDetails.observe(viewLifecycleOwner) {
-            if (it) navigateToPointFragment()
+            navigateToPointFragment(it)
         }
         viewModel.points.observe(viewLifecycleOwner) {
             addMarkers(it)
@@ -187,7 +188,10 @@ class MapFragment : Fragment(),
         dialog?.dismiss()
     }
 
-    private fun navigateToPointFragment() {
-        findNavController().navigate(R.id.action_mapFragment_to_pointFragment)
+    private fun navigateToPointFragment(id: String) {
+        val args = Bundle().apply {
+            putString(PointFragment.EXTRA_POINT_ID_KEY, id)
+        }
+        findNavController().navigate(R.id.action_mapFragment_to_pointFragment, args)
     }
 }
