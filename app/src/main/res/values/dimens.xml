@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="bottom_sheet_bottom_padding">32dp</dimen>
-    <dimen name="bottom_sheet_vertical_margin">@dimen/bottom_sheet_margin</dimen>
-    <dimen name="bottom_sheet_horizontal_margin">@dimen/bottom_sheet_margin</dimen>
-    <dimen name="bottom_sheet_margin">16dp</dimen>
-    <dimen name="bottom_sheet_line_height">1dp</dimen>
-    <dimen name="bottom_sheet_text_size">16dp</dimen>
-    <dimen name="bottom_sheet_sub_text_size">12dp</dimen>
+    <dimen name="bottom_sheet_vertical_margin">@dimen/st_margin</dimen>
+    <dimen name="bottom_sheet_horizontal_margin">@dimen/st_margin</dimen>
+    <dimen name="bottom_sheet_text_size">@dimen/st_text_size</dimen>
+    <dimen name="bottom_sheet_sub_text_size">@dimen/sub_text_size</dimen>
+    <dimen name="bottom_sheet_divider_height">@dimen/divider_height</dimen>
+
+    <dimen name="details_vertical_margin">@dimen/st_margin</dimen>
+    <dimen name="details_horizontal_margin">@dimen/st_margin</dimen>
+    <dimen name="details_text_size">@dimen/st_text_size</dimen>
+    <dimen name="details_sub_text_size">@dimen/sub_text_size</dimen>
+    <dimen name="details_divider_height">@dimen/divider_height</dimen>
 
     <dimen name="loading_dialog_padding">16sp</dimen>
+
+    <dimen name="st_margin">16dp</dimen>
+    <dimen name="st_text_size">16dp</dimen>
+    <dimen name="sub_text_size">12dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+
 </resources>

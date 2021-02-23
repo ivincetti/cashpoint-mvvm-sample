@@ -18,7 +18,7 @@ class ListViewModel(
 ) : ViewModel() {
 
     val needToShowBottomSheet = SingleLiveEvent<CashPoint>()
-    val needToNavigateToDetails = SingleLiveEvent<Boolean>()
+    val needToNavigateToDetails = SingleLiveEvent<String>()
     val needToBlockUser = SingleLiveEvent<Boolean>()
 
     val points = SingleLiveEvent<List<Point>>()
@@ -28,7 +28,7 @@ class ListViewModel(
         val radius = GeoMath.getMapVisibleRadius(map.projection.visibleRegion)
         val point = map.cameraPosition.target
         viewModelScope.launch {
-            when (val result = storage.getPoints(point.latitude, point.longitude, radius)) {
+            when (val result = storage.getPointsForMap(point.latitude, point.longitude, radius)) {
                 is PointsResult.ERROR -> {
                 }
                 is PointsResult.SUCCESS -> {
@@ -43,7 +43,7 @@ class ListViewModel(
         marker?.let {
             val markerId = it.tag as? String
             markerId?.let { id ->
-                storage.getPointById(id)?.let { point ->
+                storage.getPointForMapById(id)?.let { point ->
                     needToShowBottomSheet.value = point
                 }
             }
@@ -51,7 +51,9 @@ class ListViewModel(
     }
 
     fun onDetailsSheetClicked() {
-        needToNavigateToDetails.value = true
+        needToShowBottomSheet.value?.let {
+            needToNavigateToDetails.value = it.id
+        }
     }
 }
 

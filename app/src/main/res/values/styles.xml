@@ -7,7 +7,25 @@
         <item name="android:textSize">@dimen/bottom_sheet_text_size</item>
     </style>
 
+    <style name="BottomSheetStyle.TextSub">
+        <item name="android:textSize">@dimen/bottom_sheet_sub_text_size</item>
+    </style>
+
     <style name="BottomSheetStyle.Separator">
+        <item name="android:background">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="DetailsStyle" />
+
+    <style name="DetailsStyle.Text">
+        <item name="android:textSize">@dimen/details_text_size</item>
+    </style>
+
+    <style name="DetailsStyle.TextSub">
+        <item name="android:textSize">@dimen/details_sub_text_size</item>
+    </style>
+
+    <style name="DetailsStyle.Separator">
         <item name="android:background">?attr/colorPrimaryVariant</item>
     </style>
 

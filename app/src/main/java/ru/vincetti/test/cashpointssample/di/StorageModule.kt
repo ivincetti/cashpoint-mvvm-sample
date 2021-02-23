@@ -5,6 +5,7 @@ import dagger.Module
 import ru.vincetti.test.cashpointssample.core.storage.Storage
 import ru.vincetti.test.cashpointssample.core.storage.StorageImpl
 import ru.vincetti.test.cashpointssample.core.storage.repo.*
+import javax.inject.Singleton
 
 @Module
 abstract class StorageModule {
@@ -21,6 +22,7 @@ abstract class StorageModule {
     @Binds
     abstract fun bindMutablePartnerRepo(repo: PartnersRepoImpl): MutablePartnersRepo
 
+    @Singleton
     @Binds
     abstract fun bindStorage(storage: StorageImpl): Storage
 }

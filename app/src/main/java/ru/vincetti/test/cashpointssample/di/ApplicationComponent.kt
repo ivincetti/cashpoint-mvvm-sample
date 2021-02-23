@@ -7,7 +7,12 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [ListModule::class, RetrofitModule::class, StorageModule::class]
+    modules = [
+        ListModule::class,
+        PointModule::class,
+        RetrofitModule::class,
+        StorageModule::class
+    ]
 )
 interface ApplicationComponent {
 
