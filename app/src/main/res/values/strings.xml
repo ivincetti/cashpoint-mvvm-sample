@@ -2,6 +2,9 @@
     <string name="app_name">Cash Points Sample</string>
     <string name="title_activity_maps">Map</string>
 
+    <string name="main_map_title">Map</string>
+    <string name="main_list_title">List</string>
+
     <string name="location_permission_rationale_message">Application needs location permission.</string>
 
     <string name="point_fragment_sample_info">Sample Point Data</string>

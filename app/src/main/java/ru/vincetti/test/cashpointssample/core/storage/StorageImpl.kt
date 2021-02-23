@@ -17,11 +17,10 @@ class StorageImpl @Inject constructor(
 ) : Storage {
 
     override suspend fun getPointsForMap(
-        latitude: Double,
-        longitude: Double,
+        latLng: LatLng,
         radius: Double
     ): PointsResult {
-        val pointsData = getDepositPoints(latitude, longitude, radius)
+        val pointsData = getDepositPoints(latLng.latitude, latLng.longitude, radius)
         val partnerData = getPartnersList()
         return if (pointsData is DepositPointsResult.ERROR || partnerData is PartnersResult.ERROR) {
             PointsResult.ERROR
@@ -31,12 +30,13 @@ class StorageImpl @Inject constructor(
                 partnerRepo.setPartners((partnerData as PartnersResult.SUCCESS).list)
                 PointsResult.SUCCESS(
                     it.map { depositPoint ->
-                        Point(
+                        CashPoint(
                             depositPoint.externalId,
                             LatLng(
                                 depositPoint.location.latitude,
                                 depositPoint.location.longitude
-                            )
+                            ),
+                            depositPoint.fullAddress
                         )
                     }
                 )
@@ -44,15 +44,11 @@ class StorageImpl @Inject constructor(
         }
     }
 
-    override fun getPointForMapById(id: String): CashPoint? {
+    override fun getPointForMapById(id: String): CashPointShortDetails? {
         return pointsRepo.getPointById(id)?.let { point ->
             partnerRepo.getPartnerById(point.partnerName)?.let { partner ->
-                CashPoint(
+                CashPointShortDetails(
                     point.externalId,
-                    LatLng(
-                        point.location.latitude,
-                        point.location.longitude,
-                    ),
                     partner.name,
                     "$imageBaseUrl${partner.picture}",
                     point.fullAddress

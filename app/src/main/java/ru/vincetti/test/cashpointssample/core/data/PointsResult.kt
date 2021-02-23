@@ -5,7 +5,7 @@ import ru.vincetti.test.cashpointssample.core.network.models.points.DepositPoint
 
 sealed class PointsResult {
 
-    class SUCCESS(val list: List<Point>) : PointsResult()
+    class SUCCESS(val list: List<CashPoint>) : PointsResult()
 
     object ERROR : PointsResult()
 }

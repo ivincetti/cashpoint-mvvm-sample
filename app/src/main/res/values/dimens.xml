@@ -13,9 +13,14 @@
     <dimen name="details_sub_text_size">@dimen/sub_text_size</dimen>
     <dimen name="details_divider_height">@dimen/divider_height</dimen>
 
+    <dimen name="item_margin">@dimen/sm_margin</dimen>
+
     <dimen name="loading_dialog_padding">16sp</dimen>
 
+    <dimen name="fab_margin">@dimen/st_margin</dimen>
+
     <dimen name="st_margin">16dp</dimen>
+    <dimen name="sm_margin">8dp</dimen>
     <dimen name="st_text_size">16dp</dimen>
     <dimen name="sub_text_size">12dp</dimen>
     <dimen name="divider_height">1dp</dimen>
