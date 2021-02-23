@@ -68,7 +68,11 @@ class StorageImpl @Inject constructor(
                     point.externalId,
                     partner.name,
                     "$imageBaseUrl${partner.picture}",
-                    point.fullAddress
+                    point.fullAddress,
+                    point.workHours,
+                    point.phones,
+                    partner.dailyLimits,
+                    partner.description
                 )
             }
         }

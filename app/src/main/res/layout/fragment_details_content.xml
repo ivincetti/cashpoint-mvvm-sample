@@ -49,4 +49,105 @@
         app:layout_constraintTop_toBottomOf="@id/details_separator"
         tools:text="@string/sample_info_text" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/details_info">
+
+        <LinearLayout
+            android:id="@+id/details_additional_params"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/st_margin"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/details_work_hours_params"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/DetailsStyle.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details_fragment_work_hours_text" />
+
+                <TextView
+                    android:id="@+id/details_work_hours_param_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/details_horizontal_margin"
+                    tools:text="@string/sample_name_text" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/details_phones_params"
+                style="@style/DetailsStyle.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details_fragment_phones_text" />
+
+                <TextView
+                    android:id="@+id/details_phones_param_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/details_horizontal_margin"
+                    tools:text="@string/sample_name_text" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/details_limits_params"
+                style="@style/DetailsStyle.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details_fragment_daily_limits_text" />
+
+                <TextView
+                    android:id="@+id/details_limits_param_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/details_horizontal_margin"
+                    tools:text="@string/sample_name_text" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/details_description_params"
+                style="@style/DetailsStyle.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details_fragment_description_text" />
+
+                <TextView
+                    android:id="@+id/details_description_param_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/details_horizontal_margin"
+                    tools:text="@string/sample_name_text" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

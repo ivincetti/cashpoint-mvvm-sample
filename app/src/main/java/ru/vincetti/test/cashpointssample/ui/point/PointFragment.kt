@@ -86,6 +86,18 @@ class PointFragment : Fragment() {
         viewModel.point.observe(viewLifecycleOwner) {
             showDetailSheet(it.name, it.address, it.image)
         }
+        viewModel.workHours.observe(viewLifecycleOwner) {
+            showWorkHours(it)
+        }
+        viewModel.phones.observe(viewLifecycleOwner) {
+            showPhones(it)
+        }
+        viewModel.dailyLimits.observe(viewLifecycleOwner) {
+            showDailyLimits(it)
+        }
+        viewModel.description.observe(viewLifecycleOwner) {
+            showDescription(it)
+        }
     }
 
     private fun showLoading() {
@@ -107,6 +119,22 @@ class PointFragment : Fragment() {
             .load(pictureUrl)
             .centerCrop()
             .into(binding.detailsContent.detailsImage)
+    }
+
+    private fun showWorkHours(workHours: String?) {
+        binding.detailsContent.detailsWorkHoursParamText.text = workHours
+    }
+
+    private fun showPhones(phones: String?) {
+        binding.detailsContent.detailsPhonesParamText.text = phones
+    }
+
+    private fun showDailyLimits(dailyLimits: String?) {
+        binding.detailsContent.detailsLimitsParamText.text = dailyLimits
+    }
+
+    private fun showDescription(description: String?) {
+        binding.detailsContent.detailsDescriptionParamText.text = description
     }
 
     private fun showError() {
