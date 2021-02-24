@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.vincetti.test.cashpointssample.App
 import ru.vincetti.test.cashpointssample.R
-import ru.vincetti.test.cashpointssample.core.data.CashPoint
+import ru.vincetti.test.cashpointssample.core.data.CashPointDetails
 import ru.vincetti.test.cashpointssample.databinding.FragmentListBinding
 import ru.vincetti.test.cashpointssample.mvvm.ListViewModel
 import ru.vincetti.test.cashpointssample.mvvm.ListViewModelFactory
@@ -65,7 +65,7 @@ class ListFragment : Fragment() {
         }
     }
 
-    private fun initAdapter(list: List<CashPoint>) {
+    private fun initAdapter(list: List<CashPointDetails>) {
         val adapter = PointsListAdapter(list) { id ->
             viewModel.clickOnPointInList(id)
         }

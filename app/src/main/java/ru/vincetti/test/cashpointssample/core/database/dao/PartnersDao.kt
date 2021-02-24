@@ -15,5 +15,5 @@ interface PartnersDao {
     suspend fun insertPoints(partners: List<PartnerSQL>)
 
     @Query("Delete FROM partner")
-    suspend fun deleteAllPartners()
+    suspend fun deleteAll()
 }

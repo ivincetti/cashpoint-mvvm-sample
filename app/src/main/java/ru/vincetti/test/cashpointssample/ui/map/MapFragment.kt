@@ -25,7 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import ru.vincetti.test.cashpointssample.App
 import ru.vincetti.test.cashpointssample.R
-import ru.vincetti.test.cashpointssample.core.data.CashPoint
+import ru.vincetti.test.cashpointssample.core.data.CashPointDetails
 import ru.vincetti.test.cashpointssample.databinding.FragmentMapBinding
 import ru.vincetti.test.cashpointssample.mvvm.ListViewModel
 import ru.vincetti.test.cashpointssample.mvvm.ListViewModelFactory
@@ -33,6 +33,7 @@ import ru.vincetti.test.cashpointssample.mvvm.MainViewModel
 import ru.vincetti.test.cashpointssample.ui.point.PointFragment
 import ru.vincetti.test.cashpointssample.utils.LoadingDialog
 import ru.vincetti.test.cashpointssample.utils.PermissionUtils
+import ru.vincetti.test.cashpointssample.utils.imageBaseUrl
 import javax.inject.Inject
 
 class MapFragment : Fragment(),
@@ -146,9 +147,9 @@ class MapFragment : Fragment(),
         }
     }
 
-    private fun addMarkers(points: List<CashPoint>) {
+    private fun addMarkers(points: List<CashPointDetails>) {
         points.forEach { point ->
-            addMarker(point.id, point.latLong)
+            addMarker(point.id, LatLng(point.latitude, point.longitude))
         }
     }
 
@@ -175,10 +176,11 @@ class MapFragment : Fragment(),
     }
 
     private fun showDetailSheet(name: String, info: String, pictureUrl: String) {
+
         binding.detailsSheet.detailsSheetName.text = name
         binding.detailsSheet.detailsSheetInfo.text = info
         Glide.with(this)
-            .load(pictureUrl)
+            .load("$imageBaseUrl$pictureUrl")
             .centerCrop()
             .into(binding.detailsSheet.detailsSheetPicture)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED

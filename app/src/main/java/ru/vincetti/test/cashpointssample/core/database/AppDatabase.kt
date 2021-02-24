@@ -11,9 +11,7 @@ import ru.vincetti.test.cashpointssample.core.database.models.*
     entities = [
         PartnerSQL::class,
         DepositPointSQL::class,
-        DailyLimitSQL::class,
-        PointsRequest::class,
-        PartnerRequest::class
+        PointsRequest::class
     ],
     version = 1,
     exportSchema = false
@@ -22,9 +20,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun cashPointsDao(): CashPointsDao
     abstract fun partnersDao(): PartnersDao
-    abstract fun dailyLimitsDao(): DailyLimitsDao
     abstract fun pointsRequestsDao(): PointsRequestDao
-    abstract fun partnerRequestsDao(): PartnersRequestDao
+    abstract fun pointsDao(): PointsDao
 
     companion object {
 

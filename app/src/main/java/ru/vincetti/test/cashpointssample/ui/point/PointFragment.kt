@@ -16,8 +16,8 @@ import ru.vincetti.test.cashpointssample.R
 import ru.vincetti.test.cashpointssample.databinding.FragmentPointBinding
 import ru.vincetti.test.cashpointssample.mvvm.PointViewModel
 import ru.vincetti.test.cashpointssample.mvvm.PointViewModelFactory
+import ru.vincetti.test.cashpointssample.utils.imageBaseUrl
 import javax.inject.Inject
-
 
 class PointFragment : Fragment() {
 
@@ -92,9 +92,6 @@ class PointFragment : Fragment() {
         viewModel.phones.observe(viewLifecycleOwner) {
             showPhones(it)
         }
-        viewModel.dailyLimits.observe(viewLifecycleOwner) {
-            showDailyLimits(it)
-        }
         viewModel.description.observe(viewLifecycleOwner) {
             showDescription(it)
         }
@@ -116,7 +113,7 @@ class PointFragment : Fragment() {
         binding.detailsContent.detailsName.text = name
         binding.detailsContent.detailsInfo.text = info
         Glide.with(this)
-            .load(pictureUrl)
+            .load("$imageBaseUrl$pictureUrl")
             .centerCrop()
             .into(binding.detailsContent.detailsImage)
     }
@@ -127,10 +124,6 @@ class PointFragment : Fragment() {
 
     private fun showPhones(phones: String?) {
         binding.detailsContent.detailsPhonesParamText.text = phones
-    }
-
-    private fun showDailyLimits(dailyLimits: String?) {
-        binding.detailsContent.detailsLimitsParamText.text = dailyLimits
     }
 
     private fun showDescription(description: CharSequence) {

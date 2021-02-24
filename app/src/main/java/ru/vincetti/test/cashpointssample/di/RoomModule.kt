@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import ru.vincetti.test.cashpointssample.core.database.AppDatabase
 import ru.vincetti.test.cashpointssample.core.database.dao.*
+import ru.vincetti.test.cashpointssample.core.database.repo.*
 import javax.inject.Singleton
 
 @Module
@@ -30,19 +31,37 @@ class RoomModule {
 
     @Singleton
     @Provides
-    fun providesDailyLimitsDao(database: AppDatabase): DailyLimitsDao {
-        return database.dailyLimitsDao()
-    }
-
-    @Singleton
-    @Provides
     fun providesPointsRequestDao(database: AppDatabase): PointsRequestDao {
         return database.pointsRequestsDao()
     }
 
     @Singleton
     @Provides
-    fun providesPartnerRequestsDao(database: AppDatabase): PartnersRequestDao {
-        return database.partnerRequestsDao()
+    fun providesPartnerRequestsDao(database: AppDatabase): PointsDao {
+        return database.pointsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun cashPointsRepository(cashPointsDao: CashPointsDao): CashPointsRepository {
+        return CashPointsRepository(cashPointsDao)
+    }
+
+    @Singleton
+    @Provides
+    fun partnersRepository(partnersDao: PartnersDao): PartnersRepository {
+        return PartnersRepository(partnersDao)
+    }
+
+    @Singleton
+    @Provides
+    fun pointsRequestRepository(pointsRequestDao: PointsRequestDao): PointsRequestRepository {
+        return PointsRequestRepository(pointsRequestDao)
+    }
+
+    @Singleton
+    @Provides
+    fun partnersRequestRepository(pointsDao: PointsDao): MainPointsRepository {
+        return MainPointsRepository(pointsDao)
     }
 }

@@ -7,11 +7,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "partner")
 data class PartnerSQL(
 
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+
+    @ColumnInfo(name = "partner_name")
+    val partnerName: String,
 
     @ColumnInfo(name = "partner_request_id")
-    val partnerRequestId: Int,
+    val partnerRequestId: Long,
 
     val description: String,
 

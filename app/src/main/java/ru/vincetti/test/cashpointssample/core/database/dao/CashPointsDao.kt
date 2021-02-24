@@ -15,5 +15,5 @@ interface CashPointsDao {
     suspend fun insertPoints(points: List<DepositPointSQL>)
 
     @Query("Delete FROM points")
-    suspend fun deleteAllPoints()
+    suspend fun deleteAll()
 }

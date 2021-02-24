@@ -9,8 +9,24 @@ import ru.vincetti.test.cashpointssample.core.database.models.PointsRequest
 interface PointsRequestDao {
 
     @Insert
-    suspend fun insertRequest(request: PointsRequest)
+    suspend fun insertRequest(request: PointsRequest): Long
 
     @Query("Delete FROM points_request")
-    suspend fun deleteAllRequests()
+    suspend fun deleteAll()
+
+    @Query("Delete FROM points_request WHERE id = :requestID")
+    suspend fun deleteById(requestID: Long)
+
+    @Query(
+        """
+        Select * FROM points_request 
+        WHERE radius = :radius AND latitude = :latitude AND longitude = :longitude 
+        ORDER BY id DESC LIMIT 1
+        """
+    )
+    suspend fun getDate(
+        latitude: Double,
+        longitude: Double,
+        radius: Long
+    ): PointsRequest?
 }

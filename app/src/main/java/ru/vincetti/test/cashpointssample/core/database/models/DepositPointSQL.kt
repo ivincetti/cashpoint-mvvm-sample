@@ -7,17 +7,19 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "points")
 data class DepositPointSQL(
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+
     val externalId: String,
 
     @ColumnInfo(name = "points_request_id")
-    val pointsRequestId: Int,
+    val pointsRequestId: Long,
 
     @ColumnInfo(name = "full_address")
     val fullAddress: String,
 
-    val latitude: Long,
-    val longitude: Long,
+    val latitude: Double,
+    val longitude: Double,
 
     @ColumnInfo(name = "partner_name")
     val partnerName: String,

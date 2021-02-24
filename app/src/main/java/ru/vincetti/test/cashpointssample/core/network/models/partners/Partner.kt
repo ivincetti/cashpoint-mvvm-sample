@@ -10,7 +10,7 @@ data class Partner(
     @SerializedName("depositionDuration")
     val depositionDuration: String?,
     @SerializedName("description")
-    val description: String?,
+    val description: String,
     @SerializedName("externalPartnerId")
     val externalPartnerId: String?,
     @SerializedName("hasLocations")
@@ -18,7 +18,7 @@ data class Partner(
     @SerializedName("hasPreferentialDeposition")
     val hasPreferentialDeposition: Boolean?,
     @SerializedName("id")
-    val id: String?,
+    val id: String,
     @SerializedName("isMomentary")
     val isMomentary: Boolean?,
     @SerializedName("limitations")

@@ -6,8 +6,7 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import kotlinx.coroutines.launch
-import ru.vincetti.test.cashpointssample.core.data.CashPoint
-import ru.vincetti.test.cashpointssample.core.data.CashPointShortDetails
+import ru.vincetti.test.cashpointssample.core.data.CashPointDetails
 import ru.vincetti.test.cashpointssample.core.data.PointsResult
 import ru.vincetti.test.cashpointssample.core.storage.Storage
 import ru.vincetti.test.cashpointssample.utils.GeoConstants
@@ -18,15 +17,15 @@ class ListViewModel(
     private val storage: Storage
 ) : ViewModel() {
 
-    val needToShowBottomSheet = SingleLiveEvent<CashPointShortDetails>()
+    val needToShowBottomSheet = SingleLiveEvent<CashPointDetails>()
     val needToNavigateToDetails = SingleLiveEvent<String>()
     val needToBlockUser = SingleLiveEvent<Boolean>()
     val needToShowNetworkError = SingleLiveEvent<Boolean>()
 
     val mapPoint = SingleLiveEvent<CameraPosition>()
 
-    private val _points = MutableLiveData<List<CashPoint>?>()
-    val points: LiveData<List<CashPoint>?>
+    private val _points = MutableLiveData<List<CashPointDetails>?>()
+    val points: LiveData<List<CashPointDetails>?>
         get() = _points
 
     private var isMapReady = false
@@ -68,10 +67,12 @@ class ListViewModel(
 
     fun onMarkerClicked(marker: Marker?) {
         marker?.let {
-            val markerId = it.tag as? String
-            markerId?.let { id ->
-                storage.getPointForMapById(id)?.let { point ->
-                    needToShowBottomSheet.value = point
+            viewModelScope.launch {
+                val markerId = it.tag as? String
+                markerId?.let { id ->
+                    storage.getPointById(id)?.let { point ->
+                        needToShowBottomSheet.value = point
+                    }
                 }
             }
         }

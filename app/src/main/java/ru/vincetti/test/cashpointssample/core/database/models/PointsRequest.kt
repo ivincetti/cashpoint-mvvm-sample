@@ -7,15 +7,13 @@ import androidx.room.PrimaryKey
 data class PointsRequest(
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Long = 0,
 
     val date: Long,
 
     val radius: Long,
 
-    val latitude: Long,
+    val latitude: Double,
 
-    val longitude: Long,
-
-    val zoom: Float
+    val longitude: Double,
 )
