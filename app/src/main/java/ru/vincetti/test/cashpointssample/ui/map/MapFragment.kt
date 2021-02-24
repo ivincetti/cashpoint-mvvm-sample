@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import ru.vincetti.test.cashpointssample.App
 import ru.vincetti.test.cashpointssample.R
 import ru.vincetti.test.cashpointssample.core.data.CashPoint
@@ -128,6 +129,9 @@ class MapFragment : Fragment(),
         viewModel.needToNavigateToDetails.observe(viewLifecycleOwner) {
             navigateToPointFragment(it)
         }
+        viewModel.needToShowNetworkError.observe(viewLifecycleOwner) {
+            if (it) showError()
+        }
         viewModel.points.observe(viewLifecycleOwner) {
             it?.let {
                 addMarkers(it)
@@ -192,6 +196,16 @@ class MapFragment : Fragment(),
         val fragment = fragmentManager.findFragmentByTag(LoadingDialog.FRAGMENT_TAG)
         val dialog = fragment as? DialogFragment
         dialog?.dismiss()
+    }
+
+    private fun showError() {
+        Snackbar.make(
+            requireView(),
+            R.string.main_connectivity_error,
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction(R.string.main_connectivity_action_repeat) { viewModel.checkArea(map) }
+            .show()
     }
 
     private fun navigateToPointFragment(id: String) {

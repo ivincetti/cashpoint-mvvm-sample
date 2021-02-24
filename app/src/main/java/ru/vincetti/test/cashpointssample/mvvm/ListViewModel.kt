@@ -21,6 +21,7 @@ class ListViewModel(
     val needToShowBottomSheet = SingleLiveEvent<CashPointShortDetails>()
     val needToNavigateToDetails = SingleLiveEvent<String>()
     val needToBlockUser = SingleLiveEvent<Boolean>()
+    val needToShowNetworkError = SingleLiveEvent<Boolean>()
 
     val mapPoint = SingleLiveEvent<CameraPosition>()
 
@@ -55,6 +56,7 @@ class ListViewModel(
         viewModelScope.launch {
             when (val result = storage.getPointsForMap(latLng, radius)) {
                 is PointsResult.ERROR -> {
+                    needToShowNetworkError.value = true
                 }
                 is PointsResult.SUCCESS -> {
                     _points.value = result.list

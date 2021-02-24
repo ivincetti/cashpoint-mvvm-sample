@@ -8,6 +8,7 @@ import ru.vincetti.test.cashpointssample.core.network.models.partners.Partner
 import ru.vincetti.test.cashpointssample.core.storage.repo.MutablePartnersRepo
 import ru.vincetti.test.cashpointssample.core.storage.repo.MutablePointsRepo
 import ru.vincetti.test.cashpointssample.utils.imageBaseUrl
+import java.lang.Exception
 import javax.inject.Inject
 
 class StorageImpl @Inject constructor(
@@ -83,20 +84,28 @@ class StorageImpl @Inject constructor(
         longitude: Double,
         radius: Double
     ): DepositPointsResult {
-        val data = networkService.getDepositPoints(latitude, longitude, radius.toLong())
-        return if (data.resultCode != DOWNLOAD_OK) {
+        return try {
+            val data = networkService.getDepositPoints(latitude, longitude, radius.toLong())
+            if (data.resultCode != DOWNLOAD_OK) {
+                DepositPointsResult.ERROR
+            } else {
+                DepositPointsResult.SUCCESS(data.depositPointList)
+            }
+        } catch (e: Exception) {
             DepositPointsResult.ERROR
-        } else {
-            DepositPointsResult.SUCCESS(data.depositPointList)
         }
     }
 
     private suspend fun getPartnersList(): PartnersResult {
-        val data = networkService.getPartners()
-        return if (data.resultCode != DOWNLOAD_OK) {
+        return try {
+            val data = networkService.getPartners()
+            if (data.resultCode != DOWNLOAD_OK) {
+                PartnersResult.ERROR
+            } else {
+                PartnersResult.SUCCESS(data.partnersList)
+            }
+        } catch (e: Exception) {
             PartnersResult.ERROR
-        } else {
-            PartnersResult.SUCCESS(data.partnersList)
         }
     }
 }
