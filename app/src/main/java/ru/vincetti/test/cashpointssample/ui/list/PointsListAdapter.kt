@@ -3,11 +3,11 @@ package ru.vincetti.test.cashpointssample.ui.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.vincetti.test.cashpointssample.core.data.CashPoint
+import ru.vincetti.test.cashpointssample.core.data.CashPointDetails
 import ru.vincetti.test.cashpointssample.databinding.ItemPointBinding
 
 class PointsListAdapter(
-    private val list: List<CashPoint>,
+    private val list: List<CashPointDetails>,
     private val actions: (String) -> Unit
 ) : RecyclerView.Adapter<PointViewHolder>() {
 
