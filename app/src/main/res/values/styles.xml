@@ -29,4 +29,14 @@
         <item name="android:background">?attr/colorPrimaryVariant</item>
     </style>
 
+    <style name="ListItemStyle" />
+
+    <style name="ListItemStyle.Text">
+        <item name="android:textSize">@dimen/details_text_size</item>
+    </style>
+
+    <style name="ListItemStyle.TextSub">
+        <item name="android:textSize">@dimen/details_sub_text_size</item>
+    </style>
+
 </resources>

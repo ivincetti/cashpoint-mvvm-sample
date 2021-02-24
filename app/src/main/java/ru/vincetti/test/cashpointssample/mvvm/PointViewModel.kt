@@ -6,6 +6,7 @@ import ru.vincetti.test.cashpointssample.core.data.CashPointDetails
 import ru.vincetti.test.cashpointssample.core.network.models.partners.DailyLimit
 import ru.vincetti.test.cashpointssample.core.storage.Storage
 import ru.vincetti.test.cashpointssample.ui.point.PointFragment
+import ru.vincetti.test.cashpointssample.utils.HtmlText
 import ru.vincetti.test.cashpointssample.utils.SingleLiveEvent
 
 class PointViewModel(
@@ -27,8 +28,10 @@ class PointViewModel(
     val dailyLimits: LiveData<String> = Transformations.map(point) {
         getLimitsString(it.dailyLimits)
     }
-    val description: LiveData<String> = Transformations.map(point) {
-        it.description ?: ""
+    val description: LiveData<CharSequence> = Transformations.map(point) {
+        it.description?.let { description ->
+            HtmlText.fromHtml(description)
+        } ?: ""
     }
 
     fun load(id: String) {
@@ -57,10 +60,14 @@ class PointViewModel(
 
     private fun getLimitsString(limits: List<DailyLimit>?): String {
         val stringBuilder = StringBuilder()
-        limits?.forEach { limit ->
-            stringBuilder.appendLine("${limit.currency.name}: ${limit.amount}")
+        limits?.let {
+            if (it.isNotEmpty()) {
+                it.forEach { limit ->
+                    stringBuilder.appendLine("${limit.currency.name}: ${limit.amount}")
+                }
+                stringBuilder.setLength(stringBuilder.length - 1)
+            }
         }
-        stringBuilder.setLength(stringBuilder.length - 1)
         return stringBuilder.toString()
     }
 }

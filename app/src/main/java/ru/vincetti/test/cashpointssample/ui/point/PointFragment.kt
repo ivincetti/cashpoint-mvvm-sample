@@ -109,7 +109,7 @@ class PointFragment : Fragment() {
     }
 
     private fun navigateToMap() {
-        findNavController().navigateUp()
+        findNavController().navigate(R.id.action_global_mainFragment)
     }
 
     private fun showDetailSheet(name: String, info: String, pictureUrl: String) {
@@ -133,7 +133,7 @@ class PointFragment : Fragment() {
         binding.detailsContent.detailsLimitsParamText.text = dailyLimits
     }
 
-    private fun showDescription(description: String?) {
+    private fun showDescription(description: CharSequence) {
         binding.detailsContent.detailsDescriptionParamText.text = description
     }
 
