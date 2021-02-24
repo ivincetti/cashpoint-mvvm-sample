@@ -3,16 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mapFragment">
+    app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/mapFragment"
         android:name="ru.vincetti.test.cashpointssample.ui.map.MapFragment"
-        android:label="MapFragment" >
-        <action
-            android:id="@+id/action_mapFragment_to_pointFragment"
-            app:destination="@id/pointFragment" />
-    </fragment>
+        android:label="MapFragment" />
     <fragment
         android:id="@+id/pointFragment"
         android:name="ru.vincetti.test.cashpointssample.ui.point.PointFragment"
@@ -22,4 +18,15 @@
             android:name="id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="ru.vincetti.test.cashpointssample.ui.list.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="ru.vincetti.test.cashpointssample.ui.main.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" />
+    <action android:id="@+id/action_global_pointFragment" app:destination="@id/pointFragment" /><action android:id="@+id/action_global_mainFragment" app:destination="@id/mainFragment"/>
 </navigation>

@@ -16,9 +16,9 @@ data class DepositPoint(
     @SerializedName("partnerName")
     val partnerName: String,
     @SerializedName("phones")
-    val phones: String,
+    val phones: String?,
     @SerializedName("verificationInfo")
     val verificationInfo: String,
     @SerializedName("workHours")
-    val workHours: String
+    val workHours: String?
 )

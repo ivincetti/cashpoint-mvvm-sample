@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.CameraUpdateFactory.newCameraPosition
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -22,16 +22,18 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import ru.vincetti.test.cashpointssample.App
 import ru.vincetti.test.cashpointssample.R
+import ru.vincetti.test.cashpointssample.core.data.CashPointDetails
 import ru.vincetti.test.cashpointssample.databinding.FragmentMapBinding
 import ru.vincetti.test.cashpointssample.mvvm.ListViewModel
 import ru.vincetti.test.cashpointssample.mvvm.ListViewModelFactory
 import ru.vincetti.test.cashpointssample.mvvm.MainViewModel
-import ru.vincetti.test.cashpointssample.core.data.Point
-import ru.vincetti.test.cashpointssample.utils.GeoConstants
+import ru.vincetti.test.cashpointssample.ui.point.PointFragment
 import ru.vincetti.test.cashpointssample.utils.LoadingDialog
 import ru.vincetti.test.cashpointssample.utils.PermissionUtils
+import ru.vincetti.test.cashpointssample.utils.imageBaseUrl
 import javax.inject.Inject
 
 class MapFragment : Fragment(),
@@ -66,6 +68,7 @@ class MapFragment : Fragment(),
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        viewModel.getMapStart()
         mapFragment?.getMapAsync(this)
 
         return binding.root
@@ -86,6 +89,7 @@ class MapFragment : Fragment(),
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setOnMarkerClickListener(this)
+        map.setOnCameraIdleListener(this)
 
         with(map.uiSettings) {
             isZoomControlsEnabled = true
@@ -93,8 +97,7 @@ class MapFragment : Fragment(),
         }
         enableMyLocation()
 
-        map.moveCamera(CameraUpdateFactory.newCameraPosition(GeoConstants.MOSCOW))
-        map.setOnCameraIdleListener(this)
+        viewModel.mapReady()
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
@@ -125,19 +128,28 @@ class MapFragment : Fragment(),
             showDetailSheet(it.name, it.address, it.image)
         }
         viewModel.needToNavigateToDetails.observe(viewLifecycleOwner) {
-            if (it) navigateToPointFragment()
+            navigateToPointFragment(it)
+        }
+        viewModel.needToShowNetworkError.observe(viewLifecycleOwner) {
+            if (it) showError()
         }
         viewModel.points.observe(viewLifecycleOwner) {
-            addMarkers(it)
+            it?.let {
+                addMarkers(it)
+            }
         }
         mainViewModel.permissionGranted.observe(viewLifecycleOwner) {
             if (it) enableMyLocation()
         }
+
+        viewModel.mapPoint.observe(viewLifecycleOwner) {
+            map.moveCamera(newCameraPosition(it))
+        }
     }
 
-    private fun addMarkers(points: List<Point>) {
+    private fun addMarkers(points: List<CashPointDetails>) {
         points.forEach { point ->
-            addMarker(point.id, point.latLong)
+            addMarker(point.id, LatLng(point.latitude, point.longitude))
         }
     }
 
@@ -164,10 +176,11 @@ class MapFragment : Fragment(),
     }
 
     private fun showDetailSheet(name: String, info: String, pictureUrl: String) {
+
         binding.detailsSheet.detailsSheetName.text = name
         binding.detailsSheet.detailsSheetInfo.text = info
         Glide.with(this)
-            .load(pictureUrl)
+            .load("$imageBaseUrl$pictureUrl")
             .centerCrop()
             .into(binding.detailsSheet.detailsSheetPicture)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -187,7 +200,20 @@ class MapFragment : Fragment(),
         dialog?.dismiss()
     }
 
-    private fun navigateToPointFragment() {
-        findNavController().navigate(R.id.action_mapFragment_to_pointFragment)
+    private fun showError() {
+        Snackbar.make(
+            requireView(),
+            R.string.main_connectivity_error,
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction(R.string.main_connectivity_action_repeat) { viewModel.checkArea(map) }
+            .show()
+    }
+
+    private fun navigateToPointFragment(id: String) {
+        val args = Bundle().apply {
+            putString(PointFragment.EXTRA_POINT_ID_KEY, id)
+        }
+        findNavController().navigate(R.id.action_global_pointFragment, args)
     }
 }

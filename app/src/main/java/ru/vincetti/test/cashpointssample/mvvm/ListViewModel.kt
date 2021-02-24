@@ -1,15 +1,15 @@
 package ru.vincetti.test.cashpointssample.mvvm
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import kotlinx.coroutines.launch
-import ru.vincetti.test.cashpointssample.core.storage.Storage
-import ru.vincetti.test.cashpointssample.core.data.CashPoint
-import ru.vincetti.test.cashpointssample.core.data.Point
+import ru.vincetti.test.cashpointssample.core.data.CashPointDetails
 import ru.vincetti.test.cashpointssample.core.data.PointsResult
+import ru.vincetti.test.cashpointssample.core.storage.Storage
+import ru.vincetti.test.cashpointssample.utils.GeoConstants
 import ru.vincetti.test.cashpointssample.utils.GeoMath
 import ru.vincetti.test.cashpointssample.utils.SingleLiveEvent
 
@@ -17,22 +17,48 @@ class ListViewModel(
     private val storage: Storage
 ) : ViewModel() {
 
-    val needToShowBottomSheet = SingleLiveEvent<CashPoint>()
-    val needToNavigateToDetails = SingleLiveEvent<Boolean>()
+    val needToShowBottomSheet = SingleLiveEvent<CashPointDetails>()
+    val needToNavigateToDetails = SingleLiveEvent<String>()
     val needToBlockUser = SingleLiveEvent<Boolean>()
+    val needToShowNetworkError = SingleLiveEvent<Boolean>()
 
-    val points = SingleLiveEvent<List<Point>>()
+    val mapPoint = SingleLiveEvent<CameraPosition>()
+
+    private val _points = MutableLiveData<List<CashPointDetails>?>()
+    val points: LiveData<List<CashPointDetails>?>
+        get() = _points
+
+    private var isMapReady = false
+
+    private var zoom: Float = GeoConstants.DEFAULT_ZOOM
+    private var latLng = LatLng(GeoConstants.MOSCOW_LAT, GeoConstants.MOSCOW_LNG)
+
+    fun getMapStart() {
+        isMapReady = false
+        _points.value = null
+    }
+
+    fun mapReady() {
+        isMapReady = true
+        mapPoint.value = CameraPosition.Builder()
+            .target(latLng)
+            .zoom(zoom)
+            .build()
+    }
 
     fun checkArea(map: GoogleMap) {
         needToBlockUser.value = true
         val radius = GeoMath.getMapVisibleRadius(map.projection.visibleRegion)
         val point = map.cameraPosition.target
+        zoom = map.cameraPosition.zoom
+        latLng = LatLng(point.latitude, point.longitude)
         viewModelScope.launch {
-            when (val result = storage.getPoints(point.latitude, point.longitude, radius)) {
+            when (val result = storage.getPointsForMap(latLng, radius)) {
                 is PointsResult.ERROR -> {
+                    needToShowNetworkError.value = true
                 }
                 is PointsResult.SUCCESS -> {
-                    points.value = result.list
+                    _points.value = result.list
                 }
             }
             needToBlockUser.value = false
@@ -41,17 +67,25 @@ class ListViewModel(
 
     fun onMarkerClicked(marker: Marker?) {
         marker?.let {
-            val markerId = it.tag as? String
-            markerId?.let { id ->
-                storage.getPointById(id)?.let { point ->
-                    needToShowBottomSheet.value = point
+            viewModelScope.launch {
+                val markerId = it.tag as? String
+                markerId?.let { id ->
+                    storage.getPointById(id)?.let { point ->
+                        needToShowBottomSheet.value = point
+                    }
                 }
             }
         }
     }
 
     fun onDetailsSheetClicked() {
-        needToNavigateToDetails.value = true
+        needToShowBottomSheet.value?.let {
+            needToNavigateToDetails.value = it.id
+        }
+    }
+
+    fun clickOnPointInList(id: String) {
+        needToNavigateToDetails.value = id
     }
 }
 

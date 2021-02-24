@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class DailyLimit(
     @SerializedName("amount")
-    val amount: Int?,
+    val amount: Int,
     @SerializedName("currency")
-    val currency: Currency?
+    val currency: Currency
 )

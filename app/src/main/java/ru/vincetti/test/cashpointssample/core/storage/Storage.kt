@@ -1,18 +1,15 @@
 package ru.vincetti.test.cashpointssample.core.storage
 
-import ru.vincetti.test.cashpointssample.core.network.models.partners.Partner
-import ru.vincetti.test.cashpointssample.core.data.CashPoint
+import com.google.android.gms.maps.model.LatLng
+import ru.vincetti.test.cashpointssample.core.data.CashPointDetails
 import ru.vincetti.test.cashpointssample.core.data.PointsResult
 
 interface Storage {
 
-    suspend fun getPoints(
-        latitude: Double,
-        longitude: Double,
+    suspend fun getPointsForMap(
+        latLng: LatLng,
         radius: Double
     ): PointsResult
 
-    fun getPointById(id: String): CashPoint?
-
-    fun getPartnerById(id: String): Partner?
+    suspend fun getPointById(id: String): CashPointDetails?
 }
