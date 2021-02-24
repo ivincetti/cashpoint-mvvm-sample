@@ -7,6 +7,9 @@
 
     <string name="location_permission_rationale_message">Application needs location permission.</string>
 
+    <string name="main_connectivity_error">No internet connection.</string>
+    <string name="main_connectivity_action_exit">Exit</string>
+
     <string name="point_fragment_sample_info">Sample Point Data</string>
 
     <string name="details_fragment_loading_error_message">Loading data error</string>

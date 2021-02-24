@@ -5,11 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.vincetti.test.cashpointssample.R
 import ru.vincetti.test.cashpointssample.databinding.FragmentMainBinding
+import ru.vincetti.test.cashpointssample.mvvm.MainViewModel
+import ru.vincetti.test.cashpointssample.utils.NetworkUtils
 
 class MainFragment : Fragment() {
+
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     private var _binding: FragmentMainBinding? = null
     private val binding: FragmentMainBinding
@@ -28,12 +34,29 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initPager()
+        checkNetwork()
+        initObservers()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun checkNetwork() {
+        mainViewModel.setNetwork(
+            NetworkUtils(requireContext()).isAvailable()
+        )
+    }
+
+    private fun initObservers() {
+        mainViewModel.isNetworkConnected.observe(viewLifecycleOwner) {
+            if (it) {
+                initPager()
+            } else {
+                showError()
+            }
+        }
     }
 
     private fun initPager() {
@@ -49,5 +72,15 @@ class MainFragment : Fragment() {
                 }
             )
         }.attach()
+    }
+
+    private fun showError() {
+        Snackbar.make(
+            requireView(),
+            R.string.main_connectivity_error,
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction(R.string.main_connectivity_action_exit) { requireActivity().finish() }
+            .show()
     }
 }
