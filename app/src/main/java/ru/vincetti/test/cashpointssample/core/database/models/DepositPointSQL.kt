@@ -10,6 +10,9 @@ data class DepositPointSQL(
     @PrimaryKey
     val externalId: String,
 
+    @ColumnInfo(name = "points_request_id")
+    val pointsRequestId: Int,
+
     @ColumnInfo(name = "full_address")
     val fullAddress: String,
 

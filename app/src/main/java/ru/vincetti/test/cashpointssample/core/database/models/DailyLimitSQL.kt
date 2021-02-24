@@ -7,8 +7,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "daily_limits")
 data class DailyLimitSQL(
 
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+
+    @ColumnInfo(name = "partner_id")
+    val partnerId: String,
 
     val amount: Int,
 

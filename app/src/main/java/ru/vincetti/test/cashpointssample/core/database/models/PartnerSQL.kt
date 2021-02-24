@@ -10,10 +10,10 @@ data class PartnerSQL(
     @PrimaryKey
     val id: String,
 
-    @ColumnInfo(name = "daily_limits_id")
-    val dailyLimits: Int,
+    @ColumnInfo(name = "partner_request_id")
+    val partnerRequestId: Int,
 
-    val description: String?,
+    val description: String,
 
     val name: String,
 

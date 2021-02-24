@@ -4,9 +4,7 @@ import android.app.Application
 import dagger.Module
 import dagger.Provides
 import ru.vincetti.test.cashpointssample.core.database.AppDatabase
-import ru.vincetti.test.cashpointssample.core.database.CashPointsDao
-import ru.vincetti.test.cashpointssample.core.database.DailyLimitsDao
-import ru.vincetti.test.cashpointssample.core.database.PartnersDao
+import ru.vincetti.test.cashpointssample.core.database.dao.*
 import javax.inject.Singleton
 
 @Module
@@ -34,5 +32,17 @@ class RoomModule {
     @Provides
     fun providesDailyLimitsDao(database: AppDatabase): DailyLimitsDao {
         return database.dailyLimitsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providesPointsRequestDao(database: AppDatabase): PointsRequestDao {
+        return database.pointsRequestsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providesPartnerRequestsDao(database: AppDatabase): PartnersRequestDao {
+        return database.partnerRequestsDao()
     }
 }
